@@ -1,0 +1,7 @@
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="lightbulb">
+<path id="Oval" fill-rule="evenodd" clip-rule="evenodd" d="M16.7354 12.3333C15.5473 13.4667 15.5473 15.7333 15.5473 16.8667C15.5473 18 14.3591 18 14.3591 18H9.6067C9.6067 18 8.41858 18 8.41858 16.8667C8.41858 15.7333 8.41858 13.4667 7.23047 12.3333C4.46687 9.69715 4.15826 5.64724 6.94219 2.99167C9.72611 0.336109 14.2397 0.336109 17.0237 2.99167C19.8076 5.64724 19.595 9.60557 16.7354 12.3333Z" fill="#FFA57D" stroke="#FFA57D" stroke-linecap="round"/>
+<path id="Path 2" d="M10 22H14" stroke="#FFA57D" stroke-linecap="round"/>
+<path id="Path 3" d="M10 20H14" stroke="#FFA57D" stroke-linecap="round"/>
+</g>
+</svg>
