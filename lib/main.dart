@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/firstScreen/firstScreen.dart';
+import 'package:flutter_app/ui/secondScreen/SecondScreen.dart';
 
-import 'file:///E:/Programming/Dart/projects/flutter_app/lib/ui/thirdScreen/thirdScreen.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 

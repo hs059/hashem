@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/thirdScreen/widgets/checkName.dart';
@@ -10,7 +7,14 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ThirdScreen extends StatelessWidget {
+class ThirdScreen extends StatefulWidget {
+  @override
+  _ThirdScreenState createState() => _ThirdScreenState();
+}
+
+class _ThirdScreenState extends State<ThirdScreen> {
+  String checkName = 'Antonio';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,8 +25,8 @@ class ThirdScreen extends StatelessWidget {
               height: ScreenUtil().setHeight(50),
               child: Container(
                 alignment: Alignment.centerRight,
-              child:  Image.asset(
-                'assets/images/image 1.png',
+                child: Image.asset(
+                  'assets/images/image 1.png',
                   width: ScreenUtil().setWidth(76),
                   height: ScreenUtil().setHeight(22),
                 ),
@@ -65,19 +69,70 @@ class ThirdScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CheckName(title: 'Antonio',selected: true,),
-                        CheckName(title: 'Laura',),
-                        CheckName(title: 'Rosdale',),
-                        CheckName(title: 'Mustafa',),
-                        CheckName(title: 'Kumar',),
+                        GestureDetector(
+                          child: CheckName(
+                            title: 'Antonio',
+                            selected: checkName == 'Antonio',
+                          ),
+                          onTap: () {
+                            checkName = 'Antonio';
+                            setState(() {});
+                          },
+                        ),
+                        GestureDetector(
+                          child: CheckName(
+                            title: 'Laura',
+                            selected: checkName == 'Laura',
+                          ),
+                          onTap: () {
+                            checkName = 'Laura';
+                            setState(() {});
+                          },
+                        ),
+                        GestureDetector(
+                          child: CheckName(
+                            title: 'Rosdale',
+                            selected: checkName == 'Rosdale',
+                          ),
+                          onTap: () {
+                            checkName = 'Rosdale';
+                            setState(() {});
+                          },
+                        ),
+                          GestureDetector(
+                          child: CheckName(
+                            title: 'Mustafa',
+                            selected: checkName == 'Mustafa',
+                          ),
+                          onTap: () {
+                            checkName = 'Mustafa';
+                            setState(() {});
+                          },
+                        ),
+                             GestureDetector(
+                          child: CheckName(
+                            title: 'Kumar',
+                            selected: checkName == 'Kumar',
+                          ),
+                          onTap: () {
+                            checkName = 'Kumar';
+                            setState(() {});
+                          },
+                        ),
                       ],
                     ),
                   ),
                   Align(
                     alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Icon(Icons.clear,color: Colors.black,),
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Icon(
+                          Icons.clear,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ),
                 ],

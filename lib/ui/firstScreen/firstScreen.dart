@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/firstScreen/widgets/timeLine.dart';
+import 'package:flutter_app/ui/secondScreen/SecondScreen.dart';
+import 'package:flutter_app/ui/thirdScreen/thirdScreen.dart';
 import 'package:flutter_app/value/colors.dart';
+import 'package:flutter_app/value/navigator.dart';
 import 'package:flutter_app/value/string.dart';
 import 'package:flutter_app/value/style.dart';
 import 'package:flutter_dash/flutter_dash.dart';
@@ -20,6 +23,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+  String downButton  = 'TEILNEHMEN';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,9 +158,12 @@ class _FirstScreenState extends State<FirstScreen> {
                   title: '0',
                   assetNameSvg: markedSvg,
                 ),
-                UnderImageItem(
-                  title: '4/10',
-                  assetNameSvg: placesSvg,
+                GestureDetector(
+                  onTap: () => kNavigatorPush(context, ThirdScreen()),
+                  child: UnderImageItem(
+                    title: '4/10',
+                    assetNameSvg: placesSvg,
+                  ),
                 ),
                 UnderImageItem(
                   title: '25-35',
@@ -573,23 +580,51 @@ class _FirstScreenState extends State<FirstScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                DownButton(
-                                  title: 'teilen',
-                                  selected: false,
+                                GestureDetector(
+                                  onTap: () {
+                                    downButton = 'teilen';
+                                    setState(() {
+
+                                    });
+                                  },
+                                  child: DownButton(
+                                    title: 'teilen',
+                                    selected: downButton == 'teilen',
+                                  ),
                                 ),
                                 SizedBox(
                                   width: ScreenUtil().setWidth(10),
                                 ),
-                                DownButton(
-                                  title: 'markieren',
-                                  selected: false,
+                                GestureDetector(
+                                  onTap: () {
+                                    downButton = 'markieren';
+                                    setState(() {
+
+                                    });
+                                  },
+                                  child: DownButton(
+                                    title: 'markieren',
+                                    selected: downButton == 'markieren',
+                                  ),
                                 ),
                                 SizedBox(
                                   width: ScreenUtil().setWidth(10),
                                 ),
-                                DownButton(
-                                  title: 'TEILNEHMEN',
-                                  selected: true,
+                                GestureDetector(
+                                  onTap: () {
+                                    downButton = 'TEILNEHMEN';
+
+                                    setState(() {
+
+                                    });
+                                  },
+                                  child: GestureDetector(
+                                    onTap: () => kNavigatorPush(context, SecondScreen()),
+                                    child: DownButton(
+                                      title: 'TEILNEHMEN',
+                                      selected: downButton == 'TEILNEHMEN',
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

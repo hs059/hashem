@@ -9,7 +9,14 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class SecondScreen extends StatelessWidget {
+class SecondScreen extends StatefulWidget {
+  @override
+  _SecondScreenState createState() => _SecondScreenState();
+}
+
+class _SecondScreenState extends State<SecondScreen> {
+  String buttonSecond = 'FB' ;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,17 +63,44 @@ class SecondScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ButtonSecondScreen(title: 'FB',selected: true,),
-                      ButtonSecondScreen(title: 'Insta',),
-                      ButtonSecondScreen(title: 'Whatsapp',),
+                      GestureDetector(
+                          child: ButtonSecondScreen(title: 'FB',selected: buttonSecond == 'FB' ,),
+                        onTap: () {
+                          buttonSecond = 'FB' ;
+                          setState(() {
+
+                          });
+                        },
+                      ),
+                       GestureDetector(
+                          child: ButtonSecondScreen(title: 'Insta',selected: buttonSecond == 'Insta' ,),
+                        onTap: () {
+                          buttonSecond = 'Insta' ;
+                          setState(() {
+
+                          });
+                        },
+                      ),
+                       GestureDetector(
+                          child: ButtonSecondScreen(title: 'Whatsapp',selected: buttonSecond == 'Whatsapp' ,),
+                        onTap: () {
+                          buttonSecond = 'Whatsapp' ;
+                          setState(() {
+
+                          });
+                        },
+                      ),
                     ],
                   ),
                 ),
                 Align(
                   alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Icon(Icons.clear,color: Colors.black,),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Icon(Icons.clear,color: Colors.black,),
+                    ),
                   ),
                 ),
               ],
