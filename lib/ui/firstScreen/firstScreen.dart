@@ -1,15 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/Interessen.dart';
+import 'package:flutter_app/ui/firstScreen/widgets/interessenItem.dart';
+import 'package:flutter_app/ui/firstScreen/widgets/thumpWidget.dart';
 import 'package:flutter_app/ui/firstScreen/widgets/timeLine.dart';
 import 'package:flutter_app/ui/secondScreen/SecondScreen.dart';
 import 'package:flutter_app/ui/thirdScreen/thirdScreen.dart';
 import 'package:flutter_app/value/colors.dart';
 import 'package:flutter_app/value/navigator.dart';
+import 'package:flutter_app/value/shadow.dart';
 import 'package:flutter_app/value/string.dart';
 import 'package:flutter_app/value/style.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widgets/child&pincel.dart';
 import 'widgets/customAppbar.dart';
@@ -24,6 +29,8 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   String downButton  = 'TEILNEHMEN';
+  bool firstLike ;
+  bool secondLike ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -228,113 +235,37 @@ class _FirstScreenState extends State<FirstScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Interessen:',
-                              style: kTextStyleBlack,
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ScreenUtil().setWidth(4),
+                              ),
+                              child: Text(
+                                'Interessen:',
+                                style: kTextStyleBlack,
+                              ),
                             ),
                             SizedBox(
                               height: ScreenUtil().setHeight(10),
                             ),
                             Container(
                               width: double.infinity,
-                              height: ScreenUtil().setHeight(130),
-                              child: GridView(
-                                physics: NeverScrollableScrollPhysics(),
-                                primary: false,
+                              height: ScreenUtil().setHeight(140),
+                              child: GridView.builder(
                                 shrinkWrap: true,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Image.asset(
-                                        kochenImg,
-                                      ),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Image.asset(kochenImg),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Image.asset(kochenImg),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Image.asset(kochenImg),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Image.asset(kochenImg),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Image.asset(kochenImg),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Image.asset(kochenImg),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Image.asset(kochenImg),
-                                      Text(
-                                        'Kochen',
-                                        style: kTextStyleBlack.copyWith(
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    ],
-                                  ),
-                                ],
+                                primary: false,
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 4,
                                   childAspectRatio: 0.9,
-                                  mainAxisSpacing: 5,
-                                  crossAxisSpacing: 5,
+                                  // mainAxisSpacing: 5,
+                                  // crossAxisSpacing: 5,
                                 ),
+                                itemCount: allInteressen.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InteressenItem(title:allInteressen[index].title ,img: allInteressen[index].img,);
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -344,10 +275,9 @@ class _FirstScreenState extends State<FirstScreen> {
                           child: Column(
                             children: [
                               Image.asset(
-                                eventImg,
+                                'assets/images/galerie-1.png',
                                 width: ScreenUtil().setWidth(276),
-                                height: ScreenUtil().setHeight(124),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               ),
                               SizedBox(
                                 height: ScreenUtil().setHeight(8),
@@ -355,22 +285,25 @@ class _FirstScreenState extends State<FirstScreen> {
                               Row(
                                 children: [
                                   Image.asset(
-                                    eventImg,
+                                    'assets/images/galerie-2.png',
                                     width: ScreenUtil().setWidth(134),
-                                    height: ScreenUtil().setHeight(124),
-                                    fit: BoxFit.cover,
+                                    // height: ScreenUtil().setHeight(124),
+                                    fit: BoxFit.contain,
                                   ),
                                   SizedBox(
                                     width: ScreenUtil().setWidth(8),
                                   ),
                                   Image.asset(
-                                    eventImg,
+                                    'assets/images/galerie-3.png',
                                     width: ScreenUtil().setWidth(134),
-                                    height: ScreenUtil().setHeight(124),
-                                    fit: BoxFit.cover,
+                                    // height: ScreenUtil().setHeight(124),
+                                    fit: BoxFit.contain,
                                   ),
                                 ],
-                              )
+                              ),
+                              SizedBox(
+                                height: ScreenUtil().setHeight(20),
+                              ),
                             ],
                           )),
                       Column(
@@ -381,9 +314,25 @@ class _FirstScreenState extends State<FirstScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Kommentare:',
-                                  style: kTextStyleBlack,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Kommentare:',
+                                      style: kTextStyleBlack,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: kOrange,
+                                              width: 2
+                                          ),
+                                        boxShadow: sShadowButton,
+                                      ),
+                                      child: Icon(FontAwesomeIcons.plus,color: Colors.black,)
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: ScreenUtil().setHeight(5),
@@ -448,20 +397,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                       SizedBox(
                                         width: ScreenUtil().setWidth(10),
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          SvgPicture.asset(
-                                            thumbUpSvg,
-                                            height: ScreenUtil().setHeight(18),
-                                          ),
-                                          SvgPicture.asset(
-                                            thumbDownSvg,
-                                            height: ScreenUtil().setHeight(18),
-                                          ),
-                                        ],
-                                      ),
+                                      ThumpWidget(firstLike),
                                     ],
                                   ),
                                 ),
@@ -530,20 +466,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                       SizedBox(
                                         width: ScreenUtil().setWidth(10),
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          SvgPicture.asset(
-                                            thumbUpSvg,
-                                            height: ScreenUtil().setHeight(18),
-                                          ),
-                                          SvgPicture.asset(
-                                            thumbDownSvg,
-                                            height: ScreenUtil().setHeight(18),
-                                          ),
-                                        ],
-                                      ),
+                                      ThumpWidget(secondLike),
                                     ],
                                   ),
                                 ),

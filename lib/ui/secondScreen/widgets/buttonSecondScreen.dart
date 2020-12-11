@@ -14,8 +14,8 @@ class ButtonSecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ScreenUtil().setHeight(60),
-      width: ScreenUtil().setWidth(60),
+      height: ScreenUtil().setHeight(65),
+      width: ScreenUtil().setWidth(65),
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(

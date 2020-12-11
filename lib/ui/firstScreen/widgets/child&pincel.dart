@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/value/colors.dart';
+import 'package:flutter_app/value/shadow.dart';
 import 'package:flutter_app/value/string.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,6 +33,7 @@ class ChildAndPincel extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
+                    boxShadow: sShadowButton,
                     border: Border.all(
                         color: kOrange,
                         width: 3
