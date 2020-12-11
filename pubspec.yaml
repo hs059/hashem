@@ -33,6 +33,9 @@ dependencies:
   flutter_svg:
   flutter_dash: ^0.0.1
   font_awesome_flutter: ^8.10.1
+  google_maps_flutter:
+  geolocator:
+  provider:
 
 
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/maps.dart';
 import 'package:flutter_app/models/Interessen.dart';
 import 'package:flutter_app/ui/firstScreen/widgets/interessenItem.dart';
 import 'package:flutter_app/ui/firstScreen/widgets/thumpWidget.dart';
@@ -213,17 +214,11 @@ class _FirstScreenState extends State<FirstScreen> {
                       )),
                       ChildAndPincel(
                         child: Padding(
-                          padding:
-                              EdgeInsets.only(top: ScreenUtil().setHeight(5)),
-                          child: Container(
-                            height: ScreenUtil().setHeight(155),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(mapImg),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
+                            padding:
+                            EdgeInsets.only(top: ScreenUtil().setHeight(5)),
+                            child: Container(
+                                height: 250,
+                                child: MapsG())
                         ),
                       ),
                       ChildAndPincel(
