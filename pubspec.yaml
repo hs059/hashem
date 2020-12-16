@@ -36,6 +36,7 @@ dependencies:
   google_maps_flutter:
   geolocator:
   provider:
+  flutter_datetime_picker: ^1.4.0
 
 
 

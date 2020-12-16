@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/models/Interessen.dart';
+import 'file:///E:/Programming/Dart/gitHup/hashemAAA/lib/ui/firstScreen/widgets/kommentare.dart';
+import 'package:flutter_app/map2.dart';
 import 'package:flutter_app/maps.dart';
-import 'package:flutter_app/models/Interessen.dart';
+import 'package:flutter_app/myProvider.dart';
+
 import 'package:flutter_app/ui/firstScreen/widgets/interessenItem.dart';
 import 'package:flutter_app/ui/firstScreen/widgets/thumpWidget.dart';
+import 'package:flutter_app/ui/firstScreen/widgets/timeAndDate.dart';
 import 'package:flutter_app/ui/firstScreen/widgets/timeLine.dart';
 import 'package:flutter_app/ui/secondScreen/SecondScreen.dart';
 import 'package:flutter_app/ui/thirdScreen/thirdScreen.dart';
@@ -13,10 +18,12 @@ import 'package:flutter_app/value/shadow.dart';
 import 'package:flutter_app/value/string.dart';
 import 'package:flutter_app/value/style.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'widgets/child&pincel.dart';
 import 'widgets/customAppbar.dart';
 import 'widgets/downButton.dart';
@@ -29,11 +36,21 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  String downButton  = 'TEILNEHMEN';
-  bool firstLike ;
-  bool secondLike ;
+  String downButton = 'TEILNEHMEN';
+  bool firstLike;
+  String paper;
+GlobalKey<FormState> formKey  = GlobalKey<FormState>();
+  bool secondLike;
+
+  DateTime dateStart = DateTime.now();
+
+  DateTime dateEnd;
+
   @override
   Widget build(BuildContext context) {
+    MyProvider myProvider = Provider.of<MyProvider>(context);
+    MyProvider myProviderFalse =
+        Provider.of<MyProvider>(context, listen: false);
     return Scaffold(
       appBar: customAppBar(context),
       body: ListView(
@@ -167,7 +184,17 @@ class _FirstScreenState extends State<FirstScreen> {
                   assetNameSvg: markedSvg,
                 ),
                 GestureDetector(
-                  onTap: () => kNavigatorPush(context, ThirdScreen()),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(10.0))),
+                        content: ThirdScreen(),
+                      ),
+                    );
+                  },
                   child: UnderImageItem(
                     title: '4/10',
                     assetNameSvg: placesSvg,
@@ -185,47 +212,186 @@ class _FirstScreenState extends State<FirstScreen> {
               Positioned(
                 left: ScreenUtil().setWidth(22),
                 top: ScreenUtil().setHeight(22),
-                child: Dash(
-                    direction: Axis.vertical,
-                    length: ScreenUtil().setHeight(1090),
-                    dashLength: 5,
-                    dashColor: Colors.red),
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(20)),
+                  child: Dash(
+                      direction: Axis.vertical,
+                      length: MediaQuery.of(context).size.height * 6,
+                      dashLength: 5,
+                      dashColor: Colors.red),
+                ),
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Timeline(
                     children: <Widget>[
-                      ChildAndPincel(
-                          child: Column(
-                        children: [
-                          Text(
-                            'Start: Do, 12. Nov. 2020 18:00',
-                            style: kTextStyleBlack,
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setHeight(5),
-                          ),
-                          Text(
-                            'Ende: Do, 12. Nov. 2020 20:00',
-                            style: kTextStyleBlack,
-                          ),
-                        ],
-                      )),
-                      ChildAndPincel(
-                        child: Padding(
-                            padding:
-                            EdgeInsets.only(top: ScreenUtil().setHeight(5)),
-                            child: Container(
-                                height: 250,
-                                child: MapsG())
-                        ),
+                      TimeAndDate(
+                        dateStart: dateStart,
+                        dateEnd: dateEnd,
                       ),
                       ChildAndPincel(
-                          child: Text(
-                        'Lust auf italienisches Essen mit einem\n guten Gläschen Wein? Sed ut perspiciatis unde omnis iste natus error sit\n voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab.',
-                        style: kTextStyleBlack,
-                      )),
+                        onTap: () {
+                          showModalBottomSheet<void>(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            enableDrag: false,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Map2();
+                            },
+                          );
+                        },
+                        child: Padding(
+                            padding:
+                                EdgeInsets.only(top: ScreenUtil().setHeight(5)),
+                            child: Container(
+                                height: ScreenUtil().setHeight(200),
+                                child: MapsG())),
+                      ),
+                      ChildAndPincel(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                content: Container(
+                                  child: Wrap(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Change this Field',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.lato(
+                                              fontWeight: FontWeight.w300,
+                                              color: kOrange,
+                                              fontSize: ScreenUtil().setSp(20),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: ScreenUtil().setHeight(10),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                              top: ScreenUtil().setHeight(20),
+                                              left: ScreenUtil().setWidth(15),
+                                              right: ScreenUtil().setWidth(15),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical:
+                                                    ScreenUtil().setHeight(15),
+                                                horizontal:
+                                                    ScreenUtil().setWidth(15)),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: sShadowButton,
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'paper ',
+                                                    ),
+                                                  ],
+                                                ),
+                                                TextFormField(
+                                                  maxLines: null,
+                                                  autofocus: true,
+                                                  initialValue:
+                                                      myProvider.paper,
+                                                  onChanged:
+                                                      myProvider.setChangePaper,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Color(0xFF313A44),
+                                                  ),
+                                                  cursorColor: Colors.blue,
+                                                  decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText:
+                                                          'add your text ... '),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    ScreenUtil().setWidth(50),
+                                                vertical:
+                                                    ScreenUtil().setHeight(10)),
+                                            child: GestureDetector(
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                height:
+                                                    ScreenUtil().setHeight(45),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                decoration: BoxDecoration(
+                                                  color: kOrangeLight,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'done',
+                                                    style: GoogleFonts.lato(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.white,
+                                                      fontSize: ScreenUtil()
+                                                          .setSp(18),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                myProviderFalse.setPaper(
+                                                    myProvider.changePaper);
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                right: ScreenUtil().setWidth(25)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Container(
+                                  constraints: BoxConstraints(
+                                    maxWidth: ScreenUtil().setWidth(250),
+                                  ),
+                                  child: Text(
+                                    myProvider.paper,
+                                    style: kTextStyleBlack,
+                                    maxLines: null,
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                Container()
+                              ],
+                            ),
+                          )),
                       ChildAndPincel(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,15 +415,19 @@ class _FirstScreenState extends State<FirstScreen> {
                                 shrinkWrap: true,
                                 primary: false,
                                 gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 4,
                                   childAspectRatio: 0.9,
                                   // mainAxisSpacing: 5,
                                   // crossAxisSpacing: 5,
                                 ),
-                                itemCount: allInteressen.length,
+                                itemCount: myProvider.allInteressen.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return InteressenItem(title:allInteressen[index].title ,img: allInteressen[index].img,);
+                                  return InteressenItem(
+                                    title:
+                                        myProvider.allInteressen[index].title,
+                                    img: myProvider.allInteressen[index].img,
+                                  );
                                 },
                               ),
                             ),
@@ -306,95 +476,169 @@ class _FirstScreenState extends State<FirstScreen> {
                           Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: ScreenUtil().setWidth(18)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Kommentare:',
-                                      style: kTextStyleBlack,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: kOrange,
-                                              width: 2
+                                Text(
+                                  'Kommentare:',
+                                  style: kTextStyleBlack,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0))),
+                                        content: Container(
+                                          child: Wrap(
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Enter name and title',
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.lato(
+                                                      fontWeight: FontWeight.w300,
+                                                      color: kOrange,
+                                                      fontSize: ScreenUtil().setSp(20),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: ScreenUtil().setHeight(10),
+                                                  ),
+                                                  Form(
+                                                  key: formKey,
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          margin: EdgeInsets.only(
+                                                            top: ScreenUtil().setHeight(20),
+                                                            left: ScreenUtil().setWidth(15),
+                                                            right: ScreenUtil().setWidth(15),
+                                                          ),
+                                                          padding: EdgeInsets.symmetric(
+                                                              vertical:
+                                                              ScreenUtil().setHeight(10),
+                                                              horizontal:
+                                                              ScreenUtil().setWidth(10)),
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              boxShadow: sShadowButton,
+                                                              borderRadius:
+                                                              BorderRadius.circular(15)),
+                                                          child: TextFormField(
+                                                            maxLines: null,
+                                                            autofocus: true,
+                                                            onChanged:myProvider.setName ,
+                                                            onSaved:myProvider.setName ,
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: Color(0xFF313A44),
+                                                            ),
+                                                            cursorColor: Colors.blue,
+                                                            decoration: InputDecoration(
+                                                                border: InputBorder.none,
+                                                                hintText:
+                                                                'add name ... '),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin: EdgeInsets.only(
+                                                            top: ScreenUtil().setHeight(20),
+                                                            left: ScreenUtil().setWidth(15),
+                                                            right: ScreenUtil().setWidth(15),
+                                                          ),
+                                                          padding: EdgeInsets.symmetric(
+                                                              vertical:
+                                                              ScreenUtil().setHeight(10),
+                                                              horizontal:
+                                                              ScreenUtil().setWidth(10)),
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              boxShadow: sShadowButton,
+                                                              borderRadius:
+                                                              BorderRadius.circular(15)),
+                                                          child: TextFormField(
+                                                            maxLines: null,
+                                                            autofocus: true,
+                                                            onChanged:myProvider.setTitle,
+                                                            onSaved: myProvider.setTitle,
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: Color(0xFF313A44),
+                                                            ),
+                                                            cursorColor: Colors.blue,
+                                                            decoration: InputDecoration(
+                                                                border: InputBorder.none,
+                                                                hintText:
+                                                                'add your title ... '),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal:
+                                                        ScreenUtil().setWidth(50),
+                                                        vertical:
+                                                        ScreenUtil().setHeight(10)),
+                                                    child: GestureDetector(
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        height:
+                                                        ScreenUtil().setHeight(45),
+                                                        padding: EdgeInsets.symmetric(
+                                                            horizontal: 5),
+                                                        decoration: BoxDecoration(
+                                                          color: kOrangeLight,
+                                                          borderRadius:
+                                                          BorderRadius.circular(6),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            'done',
+                                                            style: GoogleFonts.lato(
+                                                              fontWeight:
+                                                              FontWeight.w700,
+                                                              color: Colors.white,
+                                                              fontSize: ScreenUtil()
+                                                                  .setSp(18),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      onTap: () {
+                                                        formKey.currentState.save();
+                                                        myProviderFalse.addToAllKomentare();
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: kOrange, width: 2),
                                         boxShadow: sShadowButton,
                                       ),
-                                      child: Icon(FontAwesomeIcons.plus,color: Colors.black,)
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: ScreenUtil().setHeight(5),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: ScreenUtil().setWidth(15)),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: kOrangeLight),
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(15),
-                                      topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Antonia:',
-                                            style: kTextStyleBlack.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: ScreenUtil().setSp(12),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: ScreenUtil().setHeight(16),
-                                          ),
-                                          Container(
-                                            constraints: BoxConstraints(
-                                              maxHeight:
-                                                  ScreenUtil().setHeight(42),
-                                              maxWidth:
-                                                  ScreenUtil().setWidth(211),
-                                            ),
-                                            child: Text(
-                                              'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem...',
-                                              style: kTextStyleBlack.copyWith(
-                                                fontSize:
-                                                    ScreenUtil().setSp(12),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: ScreenUtil().setHeight(5),
-                                          ),
-                                          Text(
-                                            'Weiterlesen:',
-                                            style: kTextStyleBlack.copyWith(
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: ScreenUtil().setSp(10),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: ScreenUtil().setHeight(16),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: ScreenUtil().setWidth(10),
-                                      ),
-                                      ThumpWidget(firstLike),
-                                    ],
-                                  ),
+                                      child: Icon(
+                                        FontAwesomeIcons.plus,
+                                        color: Colors.black,
+                                      )),
                                 ),
                               ],
                             ),
@@ -402,72 +646,16 @@ class _FirstScreenState extends State<FirstScreen> {
                           SizedBox(
                             height: ScreenUtil().setHeight(10),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: ScreenUtil().setWidth(18)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: ScreenUtil().setWidth(15)),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: kOrangeLight),
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(15),
-                                      topLeft: Radius.circular(15),
-                                      bottomRight: Radius.circular(15),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: ScreenUtil().setHeight(10),
-                                          ),
-                                          Text(
-                                            'Matias:',
-                                            style: kTextStyleBlack.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: ScreenUtil().setSp(12),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: ScreenUtil().setHeight(5),
-                                          ),
-                                          Container(
-                                            constraints: BoxConstraints(
-                                              maxHeight:
-                                                  ScreenUtil().setHeight(28),
-                                              maxWidth:
-                                                  ScreenUtil().setWidth(211),
-                                            ),
-                                            child: Text(
-                                              'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.',
-                                              style: kTextStyleBlack.copyWith(
-                                                fontSize:
-                                                    ScreenUtil().setSp(12),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: ScreenUtil().setHeight(16),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: ScreenUtil().setWidth(10),
-                                      ),
-                                      ThumpWidget(secondLike),
-                                    ],
-                                  ),
+
+                          ...myProvider.allKomentare
+                              .map(
+                                (e) => Kommentare(
+                                  name: e.name,
+                                  title: e.title,
+                                  index: myProvider.allKomentare.indexOf(e),
                                 ),
-                              ],
-                            ),
-                          ),
+                              )
+                              .toList(),
                           SizedBox(
                             height: ScreenUtil().setHeight(10),
                           ),
@@ -501,9 +689,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     downButton = 'teilen';
-                                    setState(() {
-
-                                    });
+                                    setState(() {});
                                   },
                                   child: DownButton(
                                     title: 'teilen',
@@ -516,9 +702,7 @@ class _FirstScreenState extends State<FirstScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     downButton = 'markieren';
-                                    setState(() {
-
-                                    });
+                                    setState(() {});
                                   },
                                   child: DownButton(
                                     title: 'markieren',
@@ -532,12 +716,20 @@ class _FirstScreenState extends State<FirstScreen> {
                                   onTap: () {
                                     downButton = 'TEILNEHMEN';
 
-                                    setState(() {
-
-                                    });
+                                    setState(() {});
                                   },
                                   child: GestureDetector(
-                                    onTap: () => kNavigatorPush(context, SecondScreen()),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10.0))),
+                                          content: SecondScreen(),
+                                        ),
+                                      );
+                                    },
                                     child: DownButton(
                                       title: 'TEILNEHMEN',
                                       selected: downButton == 'TEILNEHMEN',
@@ -592,9 +784,18 @@ class _FirstScreenState extends State<FirstScreen> {
                       Indicator(
                         assetNameSvg: commentIconSvg,
                       ),
-                      Indicator(
-                        assetNameSvg: flagActionsSvg,
-                      ),
+                      Container(
+                        width: ScreenUtil().setWidth(32),
+                        height: ScreenUtil().setHeight(100),
+                        color: Colors.white,
+                        alignment: Alignment.topCenter,
+                        child: SvgPicture.asset(
+                          flagActionsSvg,
+                          width: ScreenUtil().setWidth(32),
+                          height: ScreenUtil().setHeight(24),
+                          color: kOrange,
+                        ),
+                      )
                     ],
                   ),
                 ],

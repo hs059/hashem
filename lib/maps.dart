@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/myProvider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'home_provieder.dart';
 
-
-
 class MapsG extends StatefulWidget {
   static String routeName = 'LocationCollecter';
+
   @override
   State<StatefulWidget> createState() {
     return LocationCollecterState();
@@ -24,12 +24,22 @@ class LocationCollecterState extends State<MapsG> {
   final LatLng _center = const LatLng(24.4539, 54.3773);
 
   Future<Position> getCurrentLocation() async {
-    Position position = await Provider.of<HomeProvieder>(context, listen: false).setCurrentLocation();
+    Position position = await Provider.of<HomeProvieder>(context, listen: false)
+        .setCurrentLocation();
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(position.latitude, position.longitude), zoom: 15)));
     return position;
   }
-
+  animateCamera(LatLng location) {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: location,
+            zoom: 5),
+      ),
+    );
+    setState(() {});
+  }
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     getCurrentLocation().then((position) {
@@ -40,6 +50,7 @@ class LocationCollecterState extends State<MapsG> {
           position: LatLng(position.latitude, position.longitude)));
       setState(() {});
     });
+    animateCamera(LatLng(_center.latitude, _center.longitude));
   }
 
   Set<Marker> _markers = {};
@@ -48,69 +59,42 @@ class LocationCollecterState extends State<MapsG> {
 
   @override
   Widget build(BuildContext context) {
+    MyProvider myProvider = Provider.of<MyProvider>(context);
+    MyProvider myProviderFalse =
+        Provider.of<MyProvider>(context, listen: false);
     return
-      //key: scaffolState;
+        //key: scaffolState;
 
-
-      Stack(
-        children: <Widget>[
-          GoogleMap(
-            zoomControlsEnabled: false,
-            markers: _markers,
-            onTap: (piclerLocation) {
-              _markers.clear();
-              _markers.add(Marker(
-                  markerId: MarkerId('userSelection'),
-                  position: LatLng(
-                      piclerLocation.latitude, piclerLocation.longitude)));
-              setState(() {});
-              markerPosition = Position(
-                  latitude: piclerLocation.latitude,
-                  longitude: piclerLocation.longitude);
-
-            },
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 5.0,
-            ),
+        Stack(
+      children: <Widget>[
+        GoogleMap(
+          zoomControlsEnabled: true,
+          markers: {
+            Marker(
+                markerId: MarkerId('userSelection'),
+                position: myProvider.markerPosition == null
+        ? LatLng(_center.latitude, _center.longitude)
+            : LatLng(myProvider.markerPosition.latitude,
+        myProvider.markerPosition.longitude),)
+          },
+          // onTap: (piclerLocation) {
+          //   _markers.clear();
+          //   _markers.add(Marker(
+          //       markerId: MarkerId('userSelection'),
+          //       position:
+          //           LatLng(piclerLocation.latitude, piclerLocation.longitude)));
+          //   markerPosition = Position(
+          //       latitude: piclerLocation.latitude,
+          //       longitude: piclerLocation.longitude);
+          //   setState(() {});
+          // },
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target:LatLng(_center.latitude, _center.longitude),
+            zoom: 5,
           ),
-          //       Positioned(
-          // bottom: 30,
-          // right: 15,
-          // child: FlatButton(
-          //     onPressed: () async {
-          //       Position position =await Provider.of<HomeProvieder>(context, listen: false).setCurrentLocation();
-          //               print(position.latitude);
-          //       mapController.animateCamera(CameraUpdate.newCameraPosition(
-          //         CameraPosition(
-          //             target: LatLng(position.latitude, position.longitude),
-          //             zoom: 15),
-          //       ));
-
-          //             //  await Fluttertoast.showToast(
-          //             //   msg: " تم اضافة موقعك",
-          //             //   toastLength: Toast.LENGTH_SHORT,
-          //             //   gravity: ToastGravity.BOTTOM,
-          //             //   timeInSecForIosWeb: 1,
-          //             //   backgroundColor: AppColors.greenColor,
-          //             //   textColor: Colors.white,
-          //             //   fontSize: 16.0);
-          //       _markers.clear();
-          //       _markers.add(Marker(
-          //           markerId: MarkerId('currentLocation'),
-          //           position: LatLng(position.latitude, position.longitude)));
-          //       setState(() {});
-          //       markerPosition = position;
-          //     },
-          //     child: CircleAvatar(
-          //       radius: 25,
-          //       backgroundColor:Colors.green,
-          //       child: Icon(Icons.done,color:Colors.white))),
-          //       )
-
-        ],
-      );
-
+        ),
+      ],
+    );
   }
 }

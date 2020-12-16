@@ -8,14 +8,15 @@ import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ButtonSecondScreen extends StatelessWidget {
-  final String title  ;
+  final Widget child  ;
   final bool selected ;
-  ButtonSecondScreen({this.title,this.selected = false});
+
+  ButtonSecondScreen({this.child,this.selected = false});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ScreenUtil().setHeight(65),
-      width: ScreenUtil().setWidth(65),
+      height: ScreenUtil().setHeight(60),
+      width: ScreenUtil().setWidth(60),
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -25,15 +26,7 @@ class ButtonSecondScreen extends StatelessWidget {
             )
         ),
         child: Center(
-          child: Text(
-            title,
-            style: GoogleFonts.roboto(
-              fontWeight: FontWeight.w400,
-              color: kBlackText,
-              fontSize: ScreenUtil().setSp(15),
-            ),
-            textAlign: TextAlign.center,
-          ),
+          child: child,
         ),
       ),
     );
