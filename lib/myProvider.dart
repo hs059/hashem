@@ -86,18 +86,23 @@ perspiciatis unde omnis iste natus error sit  voluptatem accusantium doloremque 
   ];
   List<KomentareModel> allKomentare = [
     KomentareModel(
-        name: 'aaaaaaa', title: 'asdasfasdfasdgfasdgasfgdsfgafdgasdgasdfasdf'),
-
+      name: 'Antonia',
+      title:
+          'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem...',
+    ),
+    KomentareModel(
+      name: 'Matias',
+      title:
+          'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.',
+    ),
   ];
 
-  addToAllKomentare(){
-    allKomentare.add(
-        KomentareModel(
-            name: this.name, title: this.title)
-    );
+  addToAllKomentare() {
+    allKomentare.add(KomentareModel(name: this.name, title: this.title));
     notifyListeners();
   }
-  removeFromAllKomentare(int index){
+
+  removeFromAllKomentare(int index) {
     allKomentare.removeAt(index);
     notifyListeners();
   }
@@ -116,14 +121,14 @@ perspiciatis unde omnis iste natus error sit  voluptatem accusantium doloremque 
     notifyListeners();
   }
 
-  String name ='';
+  String name = '';
 
   setName(String value) {
     this.name = value;
     notifyListeners();
   }
 
-  String title ='';
+  String title = '';
 
   setTitle(String value) {
     this.title = value;

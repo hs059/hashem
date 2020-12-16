@@ -563,6 +563,9 @@ GlobalKey<FormState> formKey  = GlobalKey<FormState>();
                                                               boxShadow: sShadowButton,
                                                               borderRadius:
                                                               BorderRadius.circular(15)),
+                                                          constraints: BoxConstraints(
+                                                            minHeight: ScreenUtil().setHeight(100)
+                                                          ),
                                                           child: TextFormField(
                                                             maxLines: null,
                                                             autofocus: true,
@@ -576,7 +579,7 @@ GlobalKey<FormState> formKey  = GlobalKey<FormState>();
                                                             decoration: InputDecoration(
                                                                 border: InputBorder.none,
                                                                 hintText:
-                                                                'add your title ... '),
+                                                                'add title ... '),
                                                           ),
                                                         ),
                                                       ],
